@@ -416,7 +416,7 @@ const notifypath = path.join('C:/Users/mincy/Desktop/portal', 'uploads/notificat
 
 app.get('/getNotify/:index', function(req, res) {
   const params = {
-    Bucket: AWS_S3_BUCKET,
+    Bucket: process.env.AWS_S3_BUCKET,
     Prefix: 'notification/'
   };
 
