@@ -348,10 +348,12 @@ app.get('/getFile/:f', (req, res) => {
       console.error(err);
       return res.status(500).send('Error fetching file');
     }
-
+    console.log("success");
+    res.set('Content-Type', data.ContentType);
     res.send(data.Body);
   });
 });
+
 
 /*
 app.get('/getFle/:sub/:index', function(req, res) {
@@ -465,6 +467,7 @@ app.get('/getNotify/:index', function(req, res) {
         }
 
         res.setHeader('x-creation-time', file.LastModified.toISOString());
+        res.setHeader('Content-Type', fileData.ContentType); 
         res.setHeader('Access-Control-Expose-Headers', 'x-creation-time');
         res.send(fileData.Body);
       });
