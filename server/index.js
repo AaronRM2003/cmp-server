@@ -932,18 +932,20 @@ app.post("/updateatt", async(req, res) => {
 for (const item of obj) {
 
    
-    for (const key in item) {
+     for (const key in item) {
         if(key !=='Name'){
-            var myquery = { name:item['Name'],['attendance.'+ sub +'.date']: key };
-            var newvalues = { $set: { ['attendance.' + sub+'.$']: { date: [key], value:item[key] } } };
+            const [month,day,year] = key.split('/');
+            const key1 = day+'/'+month +'/'+year;
+            var myquery = { name:item['Name'],['attendance.'+ sub +'.date']: key1 };
+            var newvalues = { $set: { ['attendance.' + sub+'.$']: { date: key1, value:item[key] } } };
             let result = await collection.updateOne(myquery, newvalues);
         if (result.matchedCount === 0) {
             myquery = {name:item['Name']};
             if(item[key]==='P'){
-            newvalues = { $push: {  ['attendance.' + sub]: { date: key, value:'Present' }} };
+            newvalues = { $push: {  ['attendance.' + sub]: { date: key1, value:'Present' }} };
         }
             else if (item[key]==='A'){
-                newvalues = { $push: {  ['attendance.' + sub]: { date: key, value:'Absent' }} };
+                newvalues = { $push: {  ['attendance.' + sub]: { date: key1, value:'Absent' }} };
 
             }
     }
