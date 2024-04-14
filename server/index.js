@@ -397,22 +397,18 @@ const upload1 = multer({
   })
 });
 
-app.post('/pdfnotify', upload1.single('file'), (req, res) => {
-  if (req.fileValidationError) {
-    return res.status(400).send(req.fileValidationError);
-  }
-  else if (!req.file) {
-    return res.status(400).send('Please upload a file');
-  }
-  else if (err instanceof multer.MulterError) {
-    return res.status(500).send(err);
-  }
-  else if (err) {
-    return res.status(500).send(err);
-  }
+app.post('/pdfnotify', (req, res) => {
+ 
 
-  console.log("file uploaded");
-  res.json({ file: req.file });
+  upload1.single('file')(req, res, (err) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: err.message });
+    }
+
+    console.log('file uploaded');
+    res.json({ file: req.file });
+  });
 });
 
 const notifypath = path.join('C:/Users/mincy/Desktop/portal', 'uploads/notification');
