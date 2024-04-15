@@ -932,10 +932,10 @@ app.post("/updateatt", async(req, res) => {
 for (const item of obj) {
 
    
-     for (const key in item) {
+      for (const key in item) {
         if(key !=='Name'){
             const [month,day,year] = key.split('/');
-            const key1 = day+'/'+month +'/'+year;
+            const key1 = day+'/'+month +'/20'+year;
             var myquery = { name:item['Name'],['attendance.'+ sub +'.date']: key1 };
             var newvalues = { $set: { ['attendance.' + sub+'.$']: { date: key1, value:item[key] } } };
             let result = await collection.updateOne(myquery, newvalues);
